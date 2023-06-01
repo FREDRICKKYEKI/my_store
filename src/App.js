@@ -1,4 +1,4 @@
-import './assets/styles/styles.css'
+import './styles/styles.css'
 import { Route, Routes } from 'react-router-dom'
 import { ProductScreen } from './frontend/components/screens/ProductScreen'
 import { CartScreen } from './frontend/components/screens/CartScreen'
@@ -10,6 +10,7 @@ import { NavBar } from './frontend/components/NavBar'
 import { AppContext } from './contexts/AppContext'
 import { LoadingScreen } from './frontend/components/screens/LoadingScreen'
 import { HomeScreen } from './frontend/components/screens/HomeScreen'
+import { Error404Screen } from './frontend/components/screens/Error404Screen'
 
 function App() {
 	return (
@@ -25,8 +26,9 @@ function App() {
         <Route path="/register" element={<RegisterScreen />} />
         <Route path="/profile" element={<ProfileScreen />} />
         <Route path="/shipping" element={<ShippingScreen />} />
+        <Route path="*" element={<Error404Screen />} />
         {/* <Route path="/payment" element={<PaymentScreen />} /> */}
-        {/* <Route path="/placeorder" element={<PlaceOrderScreen />} /> */}
+        {/* <Route path="/placeorder" element={<PlaceOrderScreen />} />*/}
       </Routes>
     </AppContext>
   );

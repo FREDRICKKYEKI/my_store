@@ -2,27 +2,25 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useAppContext } from '../../../contexts/AppContext';
 import { Rating } from '../Rating';
-import { useNavigate } from 'react-router-dom';
-import { getCartItems } from '../../localStorage';
+import { Link } from 'react-router-dom';
 
 export const HomeScreen = () => {
-	const navigate = useNavigate();
+	// const navigate = useNavigate();
 
-const redirectUser = () => {
-    if (getCartItems().length !== 0) {
-      navigate("/shipping");
-    } else {
-      navigate("/");
-    }
-   };
+// const redirectUser = () => {
+//     if (getCartItem().length !== 0) {
+//       navigate("/shipping");
+//     } else {
+//       navigate("/");
+//     }
+//    };
 	const [products, setProducts] = useState({});
 	const [response, setResponse] = useState({})
 	const { hideLoading, showLoading } = useAppContext()
 
 	useEffect (() => {
 	  showLoading();
-	  axios.get({
-		url: 'http://localhost:5000/api/products',
+	  axios.get('http://localhost:5000/api/products',{
 		headers: {
 		  'Content-Type': 'application/json',
 		},
@@ -35,7 +33,7 @@ const redirectUser = () => {
 		console.log(err)
 	  });
 	  },[])
-
+	//   console.log(products);
   return (
     <>
       {!response ||
@@ -46,11 +44,11 @@ const redirectUser = () => {
             {products.map((product) => (
               <li key = {product._id}>
                 <div className="product">
-                  <a href={`/#/product/${product._id}`}>
+                  <Link to={`/product/${product._id}`}>
                     <img src={product.image} alt={product.name} />
-                  </a>
+                  </Link>
                   <div className="product-name">
-                    <a href="/#/product/1">${product.name}</a>
+                    <Link to="/product/1">${product.name}</Link>
                   </div>
                   <div className="product-rating">
                     <Rating

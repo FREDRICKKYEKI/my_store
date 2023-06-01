@@ -4,7 +4,7 @@ import { getUserInfo } from '../localStorage';
 export const NavBar = () => {
     const { name } = getUserInfo();
     return (
-      <>
+      <header>
         <div className="brand">
           <Link to="/">jsamazona</Link>
         </div>
@@ -15,7 +15,7 @@ export const NavBar = () => {
 			}
           <Link to="/cart">Cart</Link>
         </div>
-      </>
+      </header>
     );
 };
 

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { parseRequestUrl } from "../../utils";
 import { getProduct } from "../../../api";
 import { getCartItems, setCartItems } from "../../localStorage";
@@ -37,9 +37,12 @@ export const CartScreen = () => {
 
   const handleCheckOut = () => navigate("/signin");
 
-  useEffect(async () => {
-    if (id) {
-      const product = await getProduct(id);
+  useEffect(() => {
+    if (!id) return;
+    const getAsyncProduct = async () => {
+      return await getProduct(id);
+    };
+    getAsyncProduct().then((product) => {
       addToCart({
         product: product._id,
         name: product.name,
@@ -48,7 +51,10 @@ export const CartScreen = () => {
         countInStock: product.countInStock,
         qty: 1,
       });
-    }
+	  console.log(product)
+    }).catch((err) => {
+		console.log(err)
+	});
   }, []);
   return (
     <>
