@@ -1,6 +1,8 @@
 import React from 'react'
+import { useAppContext } from '../../../contexts/AppContext';
 
-export const LoadingScreen = ({ loading }) => {
+export const LoadingScreen = () => {
+	const { loading } = useAppContext()
   return (
     <>
       {loading && (

@@ -1,15 +1,16 @@
 import { useContext, useRef, useState } from 'react';
-import { redirectUser } from '../../../backend/utils.js';
+// import { redirectUser } from '../../../backend/utils.js';
 import { register } from '../../../api';
 import { getUserInfo, setUserInfo } from '../../localStorage';
 import { MessageModal } from '../modals/MessageModal.jsx';
-import { Context } from '../../../App.js';
+import { useAppContext } from '../../../contexts/AppContext.js';
+import { Link } from 'react-router-dom';
 
 export const RegisterScreen = () => {
 	const nameRef = useRef();
 	const emailRef = useRef();
 	const passwordRef = useRef();
-	const {showLoading, hideLoading} = useContext(Context);
+	const {showLoading, hideLoading} = useAppContext();
 	const [showModal, setShowModal] = useState(false);
 	const [message, setMessage] = useState("");
 
@@ -29,16 +30,16 @@ export const RegisterScreen = () => {
 		  setShowModal(true);
 		} else {
 		  setUserInfo(data);
-		  redirectUser();
+		//   redirectUser();
 		}
 	  };
 	if (getUserInfo().name) {
-		redirectUser();
+		// redirectUser();
 	}
     return (
 	<>
     <div class="form-container">
-      <form onSubmit={(e) => handleCreateUser(e)} ref={registerForm}>
+      <form onSubmit={(e) => handleCreateUser(e)} id="registerForm">
         <ul class="form-items">
           <li>
             <h1>Create Account</h1>
@@ -57,7 +58,7 @@ export const RegisterScreen = () => {
           </li>
           <li>
             <label for="repassword">Re-Enter Password</label>
-            <input type="password" name="repassword" ref={repasswordRef} />
+            <input type="password" name="repassword" id="repasswordRef" />
           </li>
           <li>
             <button type="submit" class="primary">Register</button>

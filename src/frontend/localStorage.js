@@ -7,6 +7,7 @@ export const getCartItems = () => {
 export const setCartItems = (cartItems) => {
   localStorage.setItem('cartItems', JSON.stringify(cartItems));
 };
+
 export const setUserInfo = ({
   _id = '',
   name = '',

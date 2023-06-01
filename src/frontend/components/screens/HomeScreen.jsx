@@ -1,12 +1,24 @@
 import axios from 'axios';
-import Rating from '../components/Rating';
 import { useEffect, useState } from 'react';
 import { useAppContext } from '../../../contexts/AppContext';
+import { Rating } from '../Rating';
+import { useNavigate } from 'react-router-dom';
+import { getCartItems } from '../../localStorage';
 
 export const HomeScreen = () => {
+	const navigate = useNavigate();
+
+const redirectUser = () => {
+    if (getCartItems().length !== 0) {
+      navigate("/shipping");
+    } else {
+      navigate("/");
+    }
+   };
 	const [products, setProducts] = useState({});
+	const [response, setResponse] = useState({})
 	const { hideLoading, showLoading } = useAppContext()
-	
+
 	useEffect (() => {
 	  showLoading();
 	  axios.get({
@@ -16,8 +28,9 @@ export const HomeScreen = () => {
 		},
 	  }).then((response) => {
 		  setProducts(response.data);
+		  setResponse(response);
 		  hideLoading();
-	  }).catch(() => {
+	  }).catch((err) => {
 		hideLoading(err);
 		console.log(err)
 	  });

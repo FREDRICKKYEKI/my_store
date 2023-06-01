@@ -7,15 +7,15 @@ import { ShippingScreen } from './frontend/components/screens/ShippingScreen'
 import { RegisterScreen } from './frontend/components/screens/RegisterScreen'
 import { SigninScreen } from './frontend/components/screens/SigninScreen'
 import { NavBar } from './frontend/components/NavBar'
-import { AppContext, useAppContext } from './contexts/AppContext'
+import { AppContext } from './contexts/AppContext'
+import { LoadingScreen } from './frontend/components/screens/LoadingScreen'
+import { HomeScreen } from './frontend/components/screens/HomeScreen'
 
 function App() {
-	const { loading } = useAppContext();
-
 	return (
     <AppContext>
       <NavBar />
-      <LoadingScreen loading={loading} />
+      <LoadingScreen />
       <Routes>
         <Route path="/" element={<HomeScreen />} />
         <Route path="/product/:id" element={<ProductScreen />} />
@@ -33,3 +33,4 @@ function App() {
 }
 
 export default App
+

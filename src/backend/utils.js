@@ -1,8 +1,8 @@
-import jwt from "jsonwebtoken";
-import config from "./config.js";
-import { getCartItems } from "../frontend/localStorage.js";
+const jwt  = require("jsonwebtoken")
+const config = require("./config.js");
+// import { getCartItems } from "../frontend/localStorage.js";
 
-export const generateToken = user => {
+const generateToken = user => {
 	return jwt.sign({
 		_id: user._id,
 		name: user.name,
@@ -13,7 +13,7 @@ export const generateToken = user => {
 	);
 }
 
-export const isAuth = (req, res, next) => {
+const isAuth = (req, res, next) => {
 	const bearerToken = req.headers.authorization;
 	if (!bearerToken) {
 	  res.status(401).send({ message: 'Token is not supplied' });
@@ -29,11 +29,5 @@ export const isAuth = (req, res, next) => {
 	  });
 	}
   };
-  
-  export const redirectUser = () => {
-	if (getCartItems().length !== 0) {
-		document.location.hash = '/shipping';
-	} else {
-		document.location.hash = '/';
-	}
-  }
+
+module.exports = {generateToken, isAuth}	

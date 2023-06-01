@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { parseRequestUrl } from "../../utils";
 import { getProduct } from "../../../api";
 import { getCartItems, setCartItems } from "../../localStorage";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 
 export const CartScreen = () => {
   const { id } = useParams();
@@ -33,7 +33,7 @@ export const CartScreen = () => {
     const item = getCartItems().find((x) => x.product === e.target.id);
     addToCart({ ...item, qty: Number(e.target.value) }, true);
   };
-  const handleDelete = () =>  removeFromCart(deleteButton.id); 
+  const handleDelete = (e) =>  removeFromCart(e.target.id); 
 
   const handleCheckOut = () => navigate("/signin");
 

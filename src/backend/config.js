@@ -1,10 +1,8 @@
-// import dotenv from 'dotenv'
+const dotenv = require("dotenv")
 
-import { configDotenv } from "dotenv"
+dotenv.config()
 
-configDotenv()
-
-export default {
+module.exports =  {
 	MONGODB_URL: process.env.MONGODB_URL,
 	JWT_SECRET: process.env.JWT_SECRET,
 }

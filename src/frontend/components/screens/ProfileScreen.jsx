@@ -3,11 +3,12 @@ import { update } from "../../../api";
 import { getUserInfo, setUserInfo, clearUser } from "../../localStorage";
 import { useNavigate } from "react-router-dom";
 import { MessageModal } from "../modals/MessageModal";
+import { useAppContext } from "../../../contexts/AppContext";
 
 export const ProfileScreen = () => {
   const { name, email } = getUserInfo();
   const navigate = useNavigate();
-//   const { showLoading, hideLoading } = useAppContext();
+  const { showLoading, hideLoading } = useAppContext();
   const [message, setMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
 
@@ -15,13 +16,13 @@ export const ProfileScreen = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // showLoading();
+    showLoading();
     const data = await update({
       name: document.getElementById("name").value,
       email: document.getElementById("email").value,
       password: document.getElementById("password").value,
     });
-    // hideLoading();
+    hideLoading();
     if (data.error) {
       setMessage(data.error);
     } else {

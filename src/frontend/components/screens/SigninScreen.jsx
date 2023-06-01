@@ -1,13 +1,16 @@
-import { redirectUser } from '../../../backend/utils.mjs';
 import { signin } from '../../../api';
 import { getUserInfo, setUserInfo } from '../../localStorage';
 import { Link, useNavigate } from 'react-router-dom';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+// import { redirectUser } from '../../utils';
+import { useAppContext } from '../../../contexts/AppContext';
+import { MessageModal } from '../modals/MessageModal';
 
 export const SigninScreen = () => {
 	const navigate = useNavigate()
 	const [showModal, setShowModal] = useState(false);
 	const [message, setMessage] = useState("");
+	const { showLoading, hideLoading } = useAppContext();
 	const emailRef = useRef();
 	const passwordRef = useRef();
 
@@ -24,7 +27,7 @@ export const SigninScreen = () => {
 		setShowModal(true);
 	  } else {
 		setUserInfo(data);
-		redirectUser();
+		// redirectUser();
 	  }
 	};
 
@@ -34,7 +37,7 @@ export const SigninScreen = () => {
 
   return (
     <>
-      <div class="form-container">
+      <div class="form-container">Hello
         <form onSubmit={(e) => handleSignIn(e)} id="signin-form">
           <ul class="form-items">
             <li>

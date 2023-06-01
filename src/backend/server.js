@@ -1,10 +1,10 @@
-import express from 'express';
-import cors from 'cors';
-import mongoose from 'mongoose';
-import bodyParser from 'body-parser'
-import config from './config.js';
-import data from './data.js';
-import userRouter from './routers/userRouter.js';
+const express = require('express');
+const cors = require('cors');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser')
+const config = require('./config.js');
+const data = require('./data.js');
+const userRouter = require('./routers/userRouter.js');
 
 mongoose.connect(config.MONGODB_URL, {
 	useNewUrlParser: true,

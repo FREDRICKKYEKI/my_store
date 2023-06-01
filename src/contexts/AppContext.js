@@ -7,13 +7,18 @@ export const useAppContext = () => {
 }
 
 export const AppContext = () => {
-const [loading, setLoading] = useState();
+
+const [loading, setLoading] = useState(false);
 const showLoading = () => setLoading(true);
 const hideLoading = () => setLoading(false);
 
   return (
 	<Context.Provider value={{showLoading, hideLoading, loading}}>
-		{ Children }
+		{ Children.map((el,i) => 
+			<>
+				el
+			</>
+		) }
 	</Context.Provider>
   )
 }

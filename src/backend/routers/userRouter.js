@@ -1,7 +1,7 @@
-import express from 'express'
-import User from '../models/userModel.js';
-import expressAsyncHandler from 'express-async-handler';
-import { generateToken, isAuth } from '../utils.js';
+const express = require('express')
+const User = require('../models/userModel.js');
+const expressAsyncHandler = require('express-async-handler');
+const  isAuth = require('../utils.js');
 
 const userRouter = express.Router();
 
@@ -70,7 +70,7 @@ userRouter.post(
 
 userRouter.put(
 	'/:id',
-	isAuth,
+	(req,res,next) => isAuth(req, res, next),
 	expressAsyncHandler(async (req, res) => {
 	  const user = await User.findById(req.params.id);
   
@@ -93,4 +93,4 @@ userRouter.put(
 	  }
 	})
   );
-export default userRouter;
+module.exports = userRouter;

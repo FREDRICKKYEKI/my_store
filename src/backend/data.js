@@ -1,5 +1,5 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
-export default {
+module.exports = {
   products: [
     {
       _id: '1',
