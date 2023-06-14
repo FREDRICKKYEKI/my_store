@@ -1,6 +1,5 @@
 const jwt  = require("jsonwebtoken")
 const config = require("./config.js");
-// import { getCartItems } from "../frontend/localStorage.js";
 
 const generateToken = user => {
 	return jwt.sign({

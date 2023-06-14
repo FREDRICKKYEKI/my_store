@@ -27,6 +27,7 @@ export const RegisterScreen = () => {
 		hideLoading();
 
 		if (data.error) {
+		  console.log(data)
 		  setMessage(data.error);
 		  setShowModal(true);
 		} else {

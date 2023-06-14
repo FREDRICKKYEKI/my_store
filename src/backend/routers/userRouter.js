@@ -2,6 +2,9 @@ const express = require('express')
 const User = require('../models/userModel.js');
 const expressAsyncHandler = require('express-async-handler');
 const  isAuth = require('../utils.js');
+const generateToken = require('../utils.js')
+const jwt  = require("jsonwebtoken")
+const config = require("../config.js");
 
 const userRouter = express.Router();
 
@@ -31,13 +34,21 @@ userRouter.post(
       res.status(401).send({
         message: "Invalid Email or Password",
       });
-    } else { 
+    } else {
+
 		res.send({
 			_id: signInUser._id,
 			name: signInUser.name,
 			email: signInUser.email,
 			isAdmin: signInUser.isAdmin,
-			token: generateToken(signInUser),
+			token: jwt.sign({
+				_id: signInUser._id,
+				name: signInUser.name,
+				email: signInUser.email,
+				isAdmin: signInUser.isAdmin,
+			},
+			config.JWT_SECRET
+			),
 		})
 	}
   })
@@ -57,12 +68,13 @@ userRouter.post(
 		  message: 'Invalid User Data',
 		});
 	  } else {
+		const authToken = generateToken(createdUser);
 		res.send({
 		  _id: createdUser._id,
 		  name: createdUser.name,
 		  email: createdUser.email,
 		  isAdmin: createdUser.isAdmin,
-		  token: generateToken(createdUser),
+		  token: authToken,
 		});
 	  }
 	})

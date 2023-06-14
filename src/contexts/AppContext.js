@@ -13,7 +13,7 @@ const showLoading = () => setLoading(true);
 const hideLoading = () => setLoading(false);
 
   return (
-	<Context.Provider value={{showLoading, hideLoading, loading}}>
+	<Context.Provider value={{showLoading, hideLoading, loading, }}>
 		{children}
 	</Context.Provider>
   )

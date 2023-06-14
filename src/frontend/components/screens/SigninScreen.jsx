@@ -27,7 +27,7 @@ export const SigninScreen = () => {
 		setShowModal(true);
 	  } else {
 		setUserInfo(data);
-		// redirectUser();
+		navigate('/');
 	  }
 	};
 
