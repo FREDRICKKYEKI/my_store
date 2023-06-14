@@ -1,10 +1,15 @@
+/**
+ * gets the cart items stored in the local storage
+ * @returns {Array} list of cart items
+ */
 export const getCartItems = () => {
   const cartItems = localStorage.getItem('cartItems')
     ? JSON.parse(localStorage.getItem('cartItems'))
     : [];
   return cartItems;
 };
-export const setCartItems = (cartItems) => {
+
+export const storeCartItems = (cartItems) => {
   localStorage.setItem('cartItems', JSON.stringify(cartItems));
 };
 
@@ -28,14 +33,17 @@ export const setUserInfo = ({
     })
   );
 };
+
 export const clearUser = () => {
   localStorage.removeItem('userInfo');
 };
+
 export const getUserInfo = () => {
   return localStorage.getItem('userInfo')
     ? JSON.parse(localStorage.getItem('userInfo'))
     : { name: '', email: '', password: '' };
 };
+
 export const getShipping = () => {
   const shipping = localStorage.getItem('shipping')
     ? JSON.parse(localStorage.getItem('shipping'))

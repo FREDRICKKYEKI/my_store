@@ -1,19 +1,16 @@
 import React from 'react'
 
-export const MessageModal = (show, setShow, message, callback) => {
-	const closeModal = () => {
-    setShow(false);
-  }
+export const MessageModal = ({show, setShow, message}) => {
   return (
     <div>
       {show && (
         <>
-          <div class="overlay active" id="message-overlay">
+          <div className="overlay active" id="message-overlay">
             <div id="message-overlay-content">
               {message ? message : "Loading..."}
             </div>
             <button
-              onClick={() => closeModal()}
+              onClick={() => setShow(false)}
               id="message-overlay-close-button"
             >
               OK

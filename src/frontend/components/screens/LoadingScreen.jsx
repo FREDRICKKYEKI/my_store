@@ -6,7 +6,7 @@ export const LoadingScreen = () => {
   return (
     <>
       {loading && (
-        <div class="overlay active" id="loading-overlay">
+        <div className="overlay active" id="loading-overlay">
           Loading...
         </div>
       )}

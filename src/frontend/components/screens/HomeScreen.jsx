@@ -5,15 +5,6 @@ import { Rating } from '../Rating';
 import { Link } from 'react-router-dom';
 
 export const HomeScreen = () => {
-	// const navigate = useNavigate();
-
-// const redirectUser = () => {
-//     if (getCartItem().length !== 0) {
-//       navigate("/shipping");
-//     } else {
-//       navigate("/");
-//     }
-//    };
 	const [products, setProducts] = useState({});
 	const [response, setResponse] = useState({})
 	const { hideLoading, showLoading } = useAppContext()
@@ -33,7 +24,6 @@ export const HomeScreen = () => {
 		console.log(err)
 	  });
 	  },[])
-	//   console.log(products);
   return (
     <>
       {!response ||

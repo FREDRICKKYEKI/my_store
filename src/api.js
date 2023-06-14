@@ -20,6 +20,8 @@ export const getProduct = async (id) => {
     return { error: err.response.data.message || err.message };
   }
 };
+
+
 export const signin = async ({ email, password }) => {
   try {
     const response = await axios({

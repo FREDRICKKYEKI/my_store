@@ -8,7 +8,7 @@ export const NavBar = () => {
         <div className="brand">
           <Link to="/">jsamazona</Link>
         </div>
-        <div>
+        <div style={{display: 'flex', gap:'.8rem'}}>
           {name
             ? <Link to="/profile">${name}</Link>
             : <Link to="/signin">Sign-In</Link>

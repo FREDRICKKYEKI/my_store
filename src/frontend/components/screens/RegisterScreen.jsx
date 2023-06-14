@@ -4,7 +4,7 @@ import { register } from '../../../api';
 import { getUserInfo, setUserInfo } from '../../localStorage';
 import { MessageModal } from '../modals/MessageModal.jsx';
 import { useAppContext } from '../../../contexts/AppContext.js';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export const RegisterScreen = () => {
 	const nameRef = useRef();
@@ -13,6 +13,7 @@ export const RegisterScreen = () => {
 	const {showLoading, hideLoading} = useAppContext();
 	const [showModal, setShowModal] = useState(false);
 	const [message, setMessage] = useState("");
+	const navigate = useNavigate();
 
 	const handleCreateUser = async (e) => {
 		e.preventDefault();
@@ -33,9 +34,8 @@ export const RegisterScreen = () => {
 		//   redirectUser();
 		}
 	  };
-	if (getUserInfo().name) {
-		// redirectUser();
-	}
+	  if (getUserInfo().name) { navigate('/'); }
+
     return (
 	<>
     <div class="form-container">

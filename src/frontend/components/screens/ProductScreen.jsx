@@ -47,7 +47,7 @@ export const ProductScreen = () => {
                 <div className="details-info">
                   <ul>
                     <li>
-                      <h1>${product.name}</h1>
+                      <h1>{product.name}</h1>
                     </li>
                     <li>
                       <Rating

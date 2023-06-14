@@ -1,4 +1,7 @@
+import React from "react";
+
 export const Rating = (props) => {
+	console.log(props)
 	return (
     <>
       {!props.value ? (
