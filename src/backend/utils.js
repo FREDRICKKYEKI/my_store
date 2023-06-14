@@ -29,4 +29,4 @@ const isAuth = (req, res, next) => {
 	}
   };
 
-module.exports = {generateToken, isAuth}	
+module.exports = {generateToken: generateToken, isAuth: isAuth}

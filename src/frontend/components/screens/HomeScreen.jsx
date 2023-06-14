@@ -26,10 +26,8 @@ export const HomeScreen = () => {
 	  },[])
   return (
     <>
-      {!response ||
-        (response.statusText !== "OK" ? (
-          <div>Error in getting data</div>
-        ) : (
+      {response.statusText !== "OK" ? (<>{response.status&&<div>Error in getting data</div>}</>)
+       : ( response &&
           <ul className="products">
             {products.map((product) => (
               <li key = {product._id}>
@@ -38,7 +36,7 @@ export const HomeScreen = () => {
                     <img src={product.image} alt={product.name} />
                   </Link>
                   <div className="product-name">
-                    <Link to="/product/1">${product.name}</Link>
+                    <Link to="/product/1">{product.name}</Link>
                   </div>
                   <div className="product-rating">
                     <Rating
@@ -52,7 +50,7 @@ export const HomeScreen = () => {
               </li>
             ))}
           </ul>
-        ))}
+        )}
     </>
   );
 };

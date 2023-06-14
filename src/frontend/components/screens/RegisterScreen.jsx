@@ -5,11 +5,13 @@ import { getUserInfo, setUserInfo } from '../../localStorage';
 import { MessageModal } from '../modals/MessageModal.jsx';
 import { useAppContext } from '../../../contexts/AppContext.js';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../contexts/AuthContext';
 
 export const RegisterScreen = () => {
 	const nameRef = useRef();
 	const emailRef = useRef();
 	const passwordRef = useRef();
+	const { setUser } = useAuth();
 	const {showLoading, hideLoading} = useAppContext();
 	const [showModal, setShowModal] = useState(false);
 	const [message, setMessage] = useState("");
@@ -32,6 +34,7 @@ export const RegisterScreen = () => {
 		  setShowModal(true);
 		} else {
 		  setUserInfo(data);
+		  setUser(data)
 		//   redirectUser();
 		}
 	  };
@@ -39,9 +42,9 @@ export const RegisterScreen = () => {
 
     return (
 	<>
-    <div class="form-container">
+    <div className="form-container">
       <form onSubmit={(e) => handleCreateUser(e)} id="registerForm">
-        <ul class="form-items">
+        <ul className="form-items">
           <li>
             <h1>Create Account</h1>
           </li>
@@ -62,7 +65,7 @@ export const RegisterScreen = () => {
             <input type="password" name="repassword" id="repasswordRef" />
           </li>
           <li>
-            <button type="submit" class="primary">Register</button>
+            <button type="submit" className="primary">Register</button>
           </li>
           <li>
             <div>

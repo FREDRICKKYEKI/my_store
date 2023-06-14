@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react";
+import { AuthContext } from "./AuthContext";
 
 const Context = createContext();
 
@@ -14,7 +15,9 @@ const hideLoading = () => setLoading(false);
 
   return (
 	<Context.Provider value={{showLoading, hideLoading, loading, }}>
-		{children}
+		<AuthContext>
+			{children}
+		</AuthContext>
 	</Context.Provider>
   )
 }

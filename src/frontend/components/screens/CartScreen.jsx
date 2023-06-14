@@ -96,7 +96,7 @@ export const CartScreen = () => {
                     <div>
                       <Link to={`/product/${item.product}`}>{item.name}</Link>
                     </div>
-                    <div>
+                    <div style={{display:"flex", gap: "1rem", alignItems: "center"}}>
                       Qty:
                       <select
                         onChange={(e) => handleChange(e)}
@@ -106,7 +106,7 @@ export const CartScreen = () => {
                       >
                         {[...Array(item.countInStock).keys()].map((x, i) =>
                           item.qty === x + 1 ? (
-                            <option key={i} defaultValue value={x + 1}>
+                            <option key={i} selected value={x + 1}>
                               {x + 1}
                             </option>
                           ) : (

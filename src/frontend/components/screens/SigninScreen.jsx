@@ -2,15 +2,16 @@ import { signin } from '../../../api';
 import { getUserInfo, setUserInfo } from '../../localStorage';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
-// import { redirectUser } from '../../utils';
 import { useAppContext } from '../../../contexts/AppContext';
 import { MessageModal } from '../modals/MessageModal';
+import { useAuth } from '../../../contexts/AuthContext';
 
 export const SigninScreen = () => {
 	const navigate = useNavigate()
 	const [showModal, setShowModal] = useState(false);
 	const [message, setMessage] = useState("");
 	const { showLoading, hideLoading } = useAppContext();
+	const { setUser }= useAuth();
 	const emailRef = useRef();
 	const passwordRef = useRef();
 
@@ -27,6 +28,7 @@ export const SigninScreen = () => {
 		setShowModal(true);
 	  } else {
 		setUserInfo(data);
+		setUser(data);
 		navigate('/');
 	  }
 	};

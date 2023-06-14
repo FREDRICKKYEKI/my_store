@@ -1,19 +1,39 @@
-import { Link } from 'react-router-dom';
-import { getUserInfo } from '../localStorage';
+import { Link, NavLink } from 'react-router-dom';
+import { getCartItems, getUserInfo } from '../localStorage';
+import { useAuth } from '../../contexts/AuthContext';
 
 export const NavBar = () => {
-    const { name } = getUserInfo();
+    const { user } = useAuth();
+	const numItems = getCartItems().length;
+	const styles = ({isActive}) => {
+		return {
+			color: isActive ? '#f08040' : 'white',
+			textDecoration: isActive ? 'underline' : 'none'
+		}
+	}
+
     return (
       <header>
         <div className="brand">
-          <Link to="/">jsamazona</Link>
+          <NavLink to="/">jsamazona</NavLink>
         </div>
-        <div style={{display: 'flex', gap:'.8rem'}}>
-          {name
-            ? <Link to="/profile">${name}</Link>
-            : <Link to="/signin">Sign-In</Link>
-			}
-          <Link to="/cart">Cart</Link>
+        <div style={{ display: "flex", gap: "1.5rem" }}>
+          {user && user.name ? (
+            <NavLink style={styles} to="/profile">
+              {user.name.split(" ")[0]}
+            </NavLink>
+          ) : (
+            <NavLink style={styles} to="/signin">
+              Sign-In
+            </NavLink>
+          )}
+          <span className="cart-icon">
+            <NavLink style={styles} to="/cart">
+            <i className="fa fa-shopping-cart "></i>
+              Cart
+            </NavLink>
+            <span className="cart-bubble">{numItems}</span>
+          </span>
         </div>
       </header>
     );

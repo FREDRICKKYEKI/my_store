@@ -14,7 +14,7 @@ a {
   text-decoration: none;
 }
 a:hover {
-  color: #f08040;
+  color: #f08040 !important;
 }
 button {
   cursor: pointer;
@@ -107,18 +107,36 @@ footer {
   align-items: center;
   color: #ffffff;
 }
+
+.cart-icon {
+	position: relative;
+}
+.cart-bubble {
+	position: absolute;
+	top: -9px;
+	right: 50%;
+	font-size: 12px;
+	width: 13px;
+	aspect-ratio: 1/1;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: tomato;
+}
+
 /* Products */
 .products {
   display: flex;
   flex-wrap: wrap;
   list-style-type: none;
-  margin: 0;
-  justify-content: center;
+  gap: 1.5rem;
+  justify-content: start;
 }
 .products li {
   flex: 0 1 30rem;
-  margin: 1rem;
-  margin-bottom: 0;
+  /* margin: 1rem; */
+  /* margin-bottom: 0; */
   height: 42rem;
   border: 1px #e0e0e0 solid;
   border-radius: 5px;

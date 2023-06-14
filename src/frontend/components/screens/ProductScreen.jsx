@@ -38,7 +38,9 @@ export const ProductScreen = () => {
           ) : (
             <>
               <div className="back-to-result">
-                <Link to="/">Back to result </Link>
+			  	<Link to="/">
+				  <i className="fa fa-arrow-left fa-lg"></i> <strong>Back to result</strong>
+				</Link>
               </div>
               <div className="details">
                 <div className="details-image">
@@ -59,8 +61,7 @@ export const ProductScreen = () => {
                       Price: <strong>${product.price}</strong>
                     </li>
                     <li>
-                      Description:
-                      <div>${product.description}</div>
+                      Description: <strong>{product.brand}</strong>
                     </li>
                   </ul>
                 </div>

@@ -1,8 +1,8 @@
 const express = require('express')
 const User = require('../models/userModel.js');
 const expressAsyncHandler = require('express-async-handler');
-const  isAuth = require('../utils.js');
-const generateToken = require('../utils.js')
+const  { isAuth } = require('../utils.js');
+const { generateToken } = require('../utils.js')
 const jwt  = require("jsonwebtoken")
 const config = require("../config.js");
 
