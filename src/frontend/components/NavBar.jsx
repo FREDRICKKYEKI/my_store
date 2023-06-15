@@ -1,26 +1,29 @@
 import { Link, NavLink } from 'react-router-dom';
 import { getCartItems, getUserInfo } from '../localStorage';
 import { useAuth } from '../../contexts/AuthContext';
+import { useAppContext } from '../../contexts/AppContext';
 
 export const NavBar = () => {
     const { user } = useAuth();
-	const numItems = getCartItems().length;
+	const { cartItems } = useAppContext();
+	const numItems = cartItems.length;
+
 	const styles = ({isActive}) => {
 		return {
-			color: isActive ? '#f08040' : 'white',
-			textDecoration: isActive ? 'underline' : 'none'
+			// color: isActive ? '#f08040' : 'white',
+			textDecoration: isActive ? 'underline' : 'none',
 		}
 	}
 
     return (
       <header>
         <div className="brand">
-          <NavLink to="/">jsamazona</NavLink>
+          <NavLink to="/">amazona</NavLink>
         </div>
         <div style={{ display: "flex", gap: "1.5rem" }}>
           {user && user.name ? (
             <NavLink style={styles} to="/profile">
-              {user.name.split(" ")[0]}
+				<i className='fa fa-user-circle'></i> {user.name.split(" ")[0]}
             </NavLink>
           ) : (
             <NavLink style={styles} to="/signin">

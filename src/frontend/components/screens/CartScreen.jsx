@@ -3,10 +3,11 @@ import { parseRequestUrl } from "../../utils";
 import { getProduct } from "../../../api";
 import { getCartItems, storeCartItems } from "../../localStorage";
 import { useParams, useNavigate, Link } from "react-router-dom";
+import { useAppContext } from "../../../contexts/AppContext";
 
 export const CartScreen = () => {
   const { id } = useParams();
-  const [cartItems, setCartItems] = useState([]);
+  const {cartItems, setCartItems} = useAppContext([]);
   const navigate = useNavigate();
   const qtySelectRef = useRef();
 
@@ -42,7 +43,7 @@ export const CartScreen = () => {
   };
 
   useEffect(() => {
-	setCartItems(getCartItems())
+	// setCartItems(getCartItems())
     if (!id) {
 		return;
 	}
