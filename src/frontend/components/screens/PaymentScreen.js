@@ -9,9 +9,16 @@ export const PaymentScreen = () => {
   const navigate = useNavigate();
   const paymentRef = useRef();
 
+  /**
+   * handles onsubmit event
+   *
+   * @param {Event} e event emitted on submit form
+   */
   const handleSubmit = (e) => {
     e.preventDefault();
-    const paymentMethod = paymentRef.current.value;
+    const paymentMethod = document.querySelector(
+      'input[name="payment-method"]:checked'
+    ).value;
     setPayment({ paymentMethod });
     navigate("/placeorder");
   };
@@ -25,9 +32,9 @@ export const PaymentScreen = () => {
   return (
     <>
       <CheckoutSteps step1={true} step2={true} step3={true} />
-      <div class="form-container">
+      <div className="form-container">
         <form id="payment-form" onSubmit={(e) => handleSubmit(e)}>
-          <ul class="form-items">
+          <ul className="form-items">
             <li>
               <h1>Payment</h1>
             </li>
@@ -38,10 +45,8 @@ export const PaymentScreen = () => {
                   name="payment-method"
                   id="paypal"
                   value="Paypal"
-				  ref={paymentRef}
-                  checked
                 />
-                <label for="paypal">PayPal</label>
+                <label htmlFor="paypal">PayPal</label>
               </div>
             </li>
             <li>
@@ -52,11 +57,11 @@ export const PaymentScreen = () => {
                   id="stripe"
                   value="Stripe"
                 />
-                <label for="stripe">Stripe</label>
+                <label htmlFor="stripe">Stripe</label>
               </div>
             </li>
             <li>
-              <button type="submit" class="primary">
+              <button type="submit" className="primary">
                 Continue
               </button>
             </li>

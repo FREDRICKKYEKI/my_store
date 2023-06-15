@@ -36,20 +36,19 @@ export const PlaceOrderScreen = () => {
   };
   useEffect(() => {
     setDetails(convertCartToOrder());
-  }, []);
+	console.log(convertCartToOrder())
+}, []);
   return (
     <div>
       {orderDetails && (
         <>
           <CheckoutSteps step1={true} step2={true} step3={true} step4={true} />
-          <div class="order">
-            <div class="order-info">
+          <div className="order">
+            <div className="order-info">
               <div>
                 <h2>Shipping</h2>
                 <div>
-                  {orderDetails.shipping.address}, {orderDetails.shipping.city},
-                  {orderDetails.shipping.postalCode},
-                  {orderDetails.shipping.country}
+                  {orderDetails.shipping.address}, {orderDetails.shipping.city}, {orderDetails.shipping.postalCode}, {orderDetails.shipping.country}
                 </div>
               </div>
               <div>
@@ -57,29 +56,29 @@ export const PlaceOrderScreen = () => {
                 <div>Payment Method : {orderDetails.payment.paymentMethod}</div>
               </div>
               <div>
-                <ul class="cart-list-container">
+                <ul className="cart-list-container">
                   <li>
                     <h2>Shopping Cart</h2>
                     <div>Price</div>
                   </li>
                   {orderDetails.orderItems.map((item) => (
-                    <li>
-                      <div class="cart-image">
+                    <li key={item._id}>
+                      <div className="cart-image">
                         <img src={`${item.image}`} alt={`${item.name}`} />
                       </div>
-                      <div class="cart-name">
+                      <div className="cart-name">
                         <div>
                           <a href="/#/product/${item.product}">{item.name} </a>
                         </div>
                         <div> Qty: {item.qty} </div>
                       </div>
-                      <div class="cart-price"> ${item.price}</div>
+                      <div className="cart-price"> ${item.price}</div>
                     </li>
                   ))}
                 </ul>
               </div>
             </div>
-            <div class="order-action">
+            <div className="order-action">
               <ul>
                 <li>
                   <h2>Order Summary</h2>
@@ -96,12 +95,12 @@ export const PlaceOrderScreen = () => {
                   <div>Tax</div>
                   <div>${orderDetails.taxPrice}</div>
                 </li>
-                <li class="total">
+                <li className="total">
                   <div>Order Total</div>
                   <div>${orderDetails.totalPrice}</div>
                 </li>
                 <li>
-                  <button class="primary fw">Place Order</button>
+                  <button className="primary fw">Place Order</button>
                 </li>
               </ul>
             </div>
