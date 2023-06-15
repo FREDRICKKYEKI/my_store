@@ -2,11 +2,12 @@ import { Link, NavLink } from 'react-router-dom';
 import { getCartItems, getUserInfo } from '../localStorage';
 import { useAuth } from '../../contexts/AuthContext';
 import { useAppContext } from '../../contexts/AppContext';
+import { useEffect } from 'react';
 
 export const NavBar = () => {
     const { user } = useAuth();
 	const { cartItems } = useAppContext();
-	const numItems = cartItems.length;
+	let numItems = cartItems ? cartItems.length : 0;
 
 	const styles = ({isActive}) => {
 		return {
@@ -14,6 +15,9 @@ export const NavBar = () => {
 			textDecoration: isActive ? 'underline' : 'none',
 		}
 	}
+	useEffect(() => {
+
+	}, [])
 
     return (
       <header>
@@ -35,7 +39,7 @@ export const NavBar = () => {
             <i className="fa fa-shopping-cart "></i>
               Cart
             </NavLink>
-            <span className="cart-bubble">{numItems}</span>
+            {numItems > 0 && <span className="cart-bubble">{numItems}</span>}
           </span>
         </div>
       </header>

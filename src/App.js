@@ -11,6 +11,8 @@ import { AppContext } from './contexts/AppContext'
 import { LoadingScreen } from './frontend/components/screens/LoadingScreen'
 import { HomeScreen } from './frontend/components/screens/HomeScreen'
 import { Error404Screen } from './frontend/components/screens/Error404Screen'
+import { PaymentScreen } from './frontend/components/screens/PaymentScreen'
+import { PlaceOrderScreen } from './frontend/components/screens/PlaceOrderScreen'
 
 function App() {
 	return (
@@ -27,8 +29,8 @@ function App() {
         <Route path="/profile" element={<ProfileScreen />} />
         <Route path="/shipping" element={<ShippingScreen />} />
         <Route path="*" element={<Error404Screen />} />
-        {/* <Route path="/payment" element={<PaymentScreen />} /> */}
-        {/* <Route path="/placeorder" element={<PlaceOrderScreen />} />*/}
+        <Route path="/payment" element={<PaymentScreen />} />
+        <Route path="/placeorder" element={<PlaceOrderScreen />} />
       </Routes>
     </AppContext>
   );

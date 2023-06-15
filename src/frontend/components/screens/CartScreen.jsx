@@ -4,10 +4,12 @@ import { getProduct } from "../../../api";
 import { getCartItems, storeCartItems } from "../../localStorage";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useAppContext } from "../../../contexts/AppContext";
+import { useAuth } from "../../../contexts/AuthContext";
 
 export const CartScreen = () => {
   const { id } = useParams();
-  const {cartItems, setCartItems} = useAppContext([]);
+  const {cartItems, setCartItems} = useAppContext();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const qtySelectRef = useRef();
 
@@ -27,7 +29,12 @@ export const CartScreen = () => {
 
   const handleDelete = (e) =>  removeFromCart(e.target.id);
 
-  const handleCheckOut = () => navigate("/signin");
+  const handleCheckOut = () => {
+	if (!user.name)
+		navigate("/signin")
+	else
+		navigate('/shipping')
+};
 
   const addToCart = async (item) => {
 	let items = getCartItems();
