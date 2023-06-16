@@ -39,7 +39,7 @@ export const ProductScreen = () => {
             <>
               <div className="back-to-result">
 			  	<Link to="/">
-				  <i className="fa fa-arrow-left fa-lg"></i> <strong>Back to result</strong>
+				  <i className="fa fa-arrow-left fa-lg"></i> <strong>Go Back</strong>
 				</Link>
               </div>
               <div className="details">

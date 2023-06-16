@@ -41,7 +41,7 @@ export const HomeScreen = () => {
                   <div className="product-rating">
                     <Rating
                       value = {product.rating}
-                      text = {`${product.numReviews} review`}
+                      text = {`${product.numReviews} reviews`}
                     />
                   </div>
                   <div className="product-brand">{product.brand}</div>

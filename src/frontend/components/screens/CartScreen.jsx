@@ -76,7 +76,7 @@ export const CartScreen = () => {
   }, []);
 
   return (
-    <>
+    <>{cartItems &&
       <div className="content cart">
         <div className="cart-list">
           <ul className="cart-list-container">
@@ -153,7 +153,7 @@ export const CartScreen = () => {
             Proceed to Checkout
           </button>
         </div>
-      </div>
+      </div>}
     </>
   );
 };

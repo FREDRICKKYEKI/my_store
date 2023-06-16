@@ -68,7 +68,7 @@ export const PlaceOrderScreen = () => {
                       </div>
                       <div className="cart-name">
                         <div>
-                          <a href="/#/product/${item.product}">{item.name} </a>
+                          <a href={`/product/${item.product}`}>{item.name} </a>
                         </div>
                         <div> Qty: {item.qty} </div>
                       </div>
