@@ -1,11 +1,11 @@
-import React from 'react'
+import React from "react";
 
-export const MessageModal = ({show, setShow, message}) => {
+export const MessageModal = ({ show, setShow, message }) => {
   return (
     <div>
-      {show && (
-        <>
-          <div className="overlay active" id="message-overlay">
+      <>
+        <div className={`overlay ${show && "active"}`} id="message-overlay">
+          <div>
             <div id="message-overlay-content">
               {message ? message : "Loading..."}
             </div>
@@ -16,8 +16,8 @@ export const MessageModal = ({show, setShow, message}) => {
               OK
             </button>
           </div>
-        </>
-      )}
+        </div>
+      </>
     </div>
   );
-}
+};

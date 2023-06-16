@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const config = require("./config.js");
 const data = require("./data.js");
 const userRouter = require("./routers/userRouter.js");
+const orderRouter = require("./routers/orderRouter.js");
 const path = require("path");
 
 const app = express();
@@ -24,6 +25,7 @@ mongoose
 app.use(cors());
 app.use(bodyParser.json());
 app.use("/api/users", userRouter);
+app.use("/api/orders", orderRouter);
 app.use(express.static(path.join(__dirname, "public")));
 app.use((err, req, res, next) => {
   const status = err.name && err.name === "ValidationError" ? 400 : 500;

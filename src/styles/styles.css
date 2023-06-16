@@ -35,7 +35,6 @@ button:hover {
 }
 button.primary {
   background-color: #f0c040;
-  /* color: #f0814089; */
 }
 .overlay {
   display: none;

@@ -1,18 +1,28 @@
-import { getCartItems, getShipping, getPayment, cleanCart } from "../../localStorage";
+import {
+  getCartItems,
+  getShipping,
+  getPayment,
+  cleanCart,
+} from "../../localStorage";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CheckoutSteps } from "../CheckoutSteps";
-import { useAppContext } from '../../../contexts/AppContext';
+import { useAppContext } from "../../../contexts/AppContext";
 import { createOrder } from "../../../api";
-import { MessageModal } from '../modals/MessageModal';
+import { MessageModal } from "../modals/MessageModal";
 
 export const PlaceOrderScreen = () => {
   const [orderDetails, setDetails] = useState();
   const navigate = useNavigate();
-  const { showLoading, hideLoading } = useAppContext()
-  const [showMessage, setShow] = useState(false)
-  const [message, setMessage] = useState('');
+  const { showLoading, hideLoading, setCartItems } = useAppContext();
+  const [showMessage, setShow] = useState(false);
+  const [message, setMessage] = useState("");
 
+  /**
+   * converts cart items to an order object
+   *
+   * @returns {object} an object containing order details
+   */
   const convertCartToOrder = () => {
     const orderItems = getCartItems();
     if (orderItems.length === 0) {
@@ -41,23 +51,24 @@ export const PlaceOrderScreen = () => {
     };
   };
 
-  const handlePlaceOrder = async() => {
-	const order = convertCartToOrder();
-	showLoading();
-	const data = await createOrder(order);
-	hideLoading();
-	if (data.error) {
-		setMessage(data.error);
-		showMessage(true);
-	} else {
-		cleanCart();
-		navigate(`/order/${data._id}`);
-	}
-  }
+  const handlePlaceOrder = async () => {
+    const order = convertCartToOrder();
+    showLoading();
+    const data = await createOrder(order);
+    hideLoading();
+    if (data.error) {
+      setMessage(data.error);
+      setShow(true);
+    } else {
+      cleanCart();
+      navigate(`/order/${data.order._id}`);
+      setCartItems({});
+    }
+  };
 
   useEffect(() => {
     setDetails(convertCartToOrder());
-}, []);
+  }, []);
 
   return (
     <div>

@@ -1,7 +1,8 @@
 import React from "react";
 
 export const Rating = (props) => {
-	return (
+  console.log(props);
+  return (
     <>
       {!props.value ? (
         <div></div>
@@ -67,4 +68,4 @@ export const Rating = (props) => {
       )}
     </>
   );
-}
+};
