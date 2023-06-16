@@ -1,13 +1,16 @@
 import { useAuth } from "../../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { setPayment } from "../../localStorage";
 import { CheckoutSteps } from "../CheckoutSteps";
+import { MessageModal } from "../modals/MessageModal";
 
 export const PaymentScreen = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const paymentRef = useRef();
+  const [message, setMessage] = useState("");
+  const [showMessage, setShowMessage] = useState(false);
 
   /**
    * handles onsubmit event
@@ -16,17 +19,22 @@ export const PaymentScreen = () => {
    */
   const handleSubmit = (e) => {
     e.preventDefault();
-    const paymentMethod = document.querySelector(
-      'input[name="payment-method"]:checked'
-    ).value;
-    setPayment({ paymentMethod });
-    navigate("/placeorder");
+    try {
+      const paymentMethod = document.querySelector(
+        'input[name="payment-method"]:checked'
+      ).value;
+      setPayment({ paymentMethod });
+      navigate("/placeorder");
+    } catch (err) {
+      setMessage("Please select an option");
+      setShowMessage(true);
+    }
   };
 
   useEffect(() => {
-      if (user&&!user.name) {
-    	navigate('/');
-      }
+    if (user && !user.name) {
+      navigate("/");
+    }
   }, []);
 
   return (
@@ -68,6 +76,11 @@ export const PaymentScreen = () => {
           </ul>
         </form>
       </div>
+      <MessageModal
+        show={showMessage}
+        message={message}
+        setShow={setShowMessage}
+      />
     </>
   );
 };

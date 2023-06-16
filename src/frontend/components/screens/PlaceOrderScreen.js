@@ -62,7 +62,7 @@ export const PlaceOrderScreen = () => {
     } else {
       cleanCart();
       navigate(`/order/${data.order._id}`);
-      setCartItems({});
+      setCartItems([]);
     }
   };
 

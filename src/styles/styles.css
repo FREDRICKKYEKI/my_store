@@ -173,6 +173,8 @@ footer {
 .rating {
   color: #ffc000;
   font-size: 1.8rem;
+  display: flex;
+  gap: .3rem;
 }
 .rating span:last-child {
   color: #444444;
