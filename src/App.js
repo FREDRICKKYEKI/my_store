@@ -1,21 +1,22 @@
-import './styles/styles.css'
-import { Route, Routes } from 'react-router-dom'
-import { ProductScreen } from './frontend/components/screens/ProductScreen'
-import { CartScreen } from './frontend/components/screens/CartScreen'
-import { ProfileScreen } from './frontend/components/screens/ProfileScreen'
-import { ShippingScreen } from './frontend/components/screens/ShippingScreen'
-import { RegisterScreen } from './frontend/components/screens/RegisterScreen'
-import { SigninScreen } from './frontend/components/screens/SigninScreen'
-import { NavBar } from './frontend/components/NavBar'
-import { AppContext } from './contexts/AppContext'
-import { LoadingScreen } from './frontend/components/screens/LoadingScreen'
-import { HomeScreen } from './frontend/components/screens/HomeScreen'
-import { Error404Screen } from './frontend/components/screens/Error404Screen'
-import { PaymentScreen } from './frontend/components/screens/PaymentScreen'
-import { PlaceOrderScreen } from './frontend/components/screens/PlaceOrderScreen'
+import "./styles/styles.css";
+import { Route, Routes } from "react-router-dom";
+import { ProductScreen } from "./frontend/components/screens/ProductScreen";
+import { CartScreen } from "./frontend/components/screens/CartScreen";
+import { ProfileScreen } from "./frontend/components/screens/ProfileScreen";
+import { ShippingScreen } from "./frontend/components/screens/ShippingScreen";
+import { RegisterScreen } from "./frontend/components/screens/RegisterScreen";
+import { SigninScreen } from "./frontend/components/screens/SigninScreen";
+import { NavBar } from "./frontend/components/NavBar";
+import { AppContext } from "./contexts/AppContext";
+import { LoadingScreen } from "./frontend/components/screens/LoadingScreen";
+import { HomeScreen } from "./frontend/components/screens/HomeScreen";
+import { Error404Screen } from "./frontend/components/screens/Error404Screen";
+import { PaymentScreen } from "./frontend/components/screens/PaymentScreen";
+import { PlaceOrderScreen } from "./frontend/components/screens/PlaceOrderScreen";
+import { OrderScreen } from "./frontend/components/screens/OrderScreen";
 
 function App() {
-	return (
+  return (
     <AppContext>
       <NavBar />
       <LoadingScreen />
@@ -31,10 +32,10 @@ function App() {
         <Route path="*" element={<Error404Screen />} />
         <Route path="/payment" element={<PaymentScreen />} />
         <Route path="/placeorder" element={<PlaceOrderScreen />} />
+        <Route path="/order/:id" element={<OrderScreen />} />
       </Routes>
     </AppContext>
   );
 }
 
-export default App
-
+export default App;
