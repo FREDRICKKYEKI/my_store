@@ -1,11 +1,17 @@
-import { getCartItems, getShipping, getPayment } from "../../localStorage";
+import { getCartItems, getShipping, getPayment, cleanCart } from "../../localStorage";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CheckoutSteps } from "../CheckoutSteps";
+import { useAppContext } from '../../../contexts/AppContext';
+import { createOrder } from "../../../api";
+import { MessageModal } from '../modals/MessageModal';
 
 export const PlaceOrderScreen = () => {
   const [orderDetails, setDetails] = useState();
   const navigate = useNavigate();
+  const { showLoading, hideLoading } = useAppContext()
+  const [showMessage, setShow] = useState(false)
+  const [message, setMessage] = useState('');
 
   const convertCartToOrder = () => {
     const orderItems = getCartItems();
@@ -34,10 +40,25 @@ export const PlaceOrderScreen = () => {
       totalPrice,
     };
   };
+
+  const handlePlaceOrder = async() => {
+	const order = convertCartToOrder();
+	showLoading();
+	const data = await createOrder(order);
+	hideLoading();
+	if (data.error) {
+		setMessage(data.error);
+		showMessage(true);
+	} else {
+		cleanCart();
+		navigate(`/order/${data._id}`);
+	}
+  }
+
   useEffect(() => {
     setDetails(convertCartToOrder());
-	console.log(convertCartToOrder())
 }, []);
+
   return (
     <div>
       {orderDetails && (
@@ -48,7 +69,9 @@ export const PlaceOrderScreen = () => {
               <div>
                 <h2>Shipping</h2>
                 <div>
-                  {orderDetails.shipping.address}, {orderDetails.shipping.city}, {orderDetails.shipping.postalCode}, {orderDetails.shipping.country}
+                  {orderDetails.shipping.address}, {orderDetails.shipping.city},{" "}
+                  {orderDetails.shipping.postalCode},{" "}
+                  {orderDetails.shipping.country}
                 </div>
               </div>
               <div>
@@ -100,13 +123,19 @@ export const PlaceOrderScreen = () => {
                   <div>${orderDetails.totalPrice}</div>
                 </li>
                 <li>
-                  <button className="primary fw">Place Order</button>
+                  <button
+                    onClick={() => handlePlaceOrder()}
+                    className="primary fw"
+                  >
+                    Place Order
+                  </button>
                 </li>
               </ul>
             </div>
-          </div>{" "}
+          </div>
         </>
       )}
+      <MessageModal show={showMessage} setShow={setShow} message={message} />
     </div>
   );
 };
