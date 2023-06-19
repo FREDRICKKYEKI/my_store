@@ -2,6 +2,12 @@ import axios from "axios";
 import { apiUrl } from "./config";
 import { getUserInfo } from "./frontend/localStorage";
 
+/**
+ * Fetches individual product through the id
+ *
+ * @param {string} id the product id
+ * @returns product requested
+ */
 export const getProduct = async (id) => {
   try {
     const response = await axios({
@@ -21,6 +27,12 @@ export const getProduct = async (id) => {
   }
 };
 
+/**
+ * Signs in user
+ *
+ * @param {object} userDetailsObj user details
+ * @returns user data/auth token
+ */
 export const signin = async ({ email, password }) => {
   try {
     const response = await axios({
@@ -43,6 +55,13 @@ export const signin = async ({ email, password }) => {
     return { error: err.response.data.message || err.message };
   }
 };
+
+/**
+ * Registers new user
+ *
+ * @param {object} userDetails user details
+ * @returns user data/auth token
+ */
 export const register = async ({ name, email, password }) => {
   try {
     const response = await axios({
@@ -66,6 +85,13 @@ export const register = async ({ name, email, password }) => {
     return { error: err.response.data.message || err.message };
   }
 };
+
+/**
+ * Updates user details
+ *
+ * @param {*} userData
+ * @returns user data/auth token
+ */
 export const update = async ({ name, email, password }) => {
   try {
     const { _id, token } = getUserInfo();
@@ -142,5 +168,50 @@ export const getOrder = async (id) => {
     return response.data;
   } catch (err) {
     return { error: err.message };
+  }
+};
+
+/**
+ * fetches paypal clientId
+ */
+export const getPaypalClientId = async () => {
+  const response = await axios({
+    url: `${apiUrl}/api/paypal/clientId`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (response.statusText !== "OK") {
+    throw new Error(response.data.message);
+  }
+  return response.data.clientId;
+};
+
+/**
+ * Function that handles order payment
+ *
+ * @param {string} orderId id of order
+ * @param {string} paymentResult payment information
+ * @returns
+ */
+export const payOrder = async (orderId, paymentResult) => {
+  try {
+    const { token } = getUserInfo();
+    const response = await axios({
+      url: `${apiUrl}/api/orders/${orderId}/pay`,
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      data: paymentResult,
+    });
+    if (response.statusText !== "OK") {
+      throw new Error(response.data.message);
+    }
+    return response.data;
+  } catch (err) {
+    return { error: err.response ? err.response.data.message : err.message };
   }
 };

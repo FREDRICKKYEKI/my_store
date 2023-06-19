@@ -1,12 +1,16 @@
 // import { parseRequestUrl } from "../utils";
 import { useParams } from "react-router-dom";
-import { getOrder } from "../../../api";
+import { getOrder, getPaypalClientId, payOrder } from "../../../api";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../../../contexts/AppContext";
+import { MessageModal } from "../modals/MessageModal";
+import { PayPalButton } from "../buttons/PayPalButton";
 
 export const OrderScreen = () => {
   const { id } = useParams();
   const { showLoading, hideLoading } = useAppContext();
+  const [message, setMessage] = useState("");
+  const [showMessage, setShow] = useState(false);
   const [
     {
       _id,
@@ -115,80 +119,21 @@ export const OrderScreen = () => {
                   <div>${totalPrice}</div>
                 </li>
                 <li>
-                  <div className="fw" id="paypal-button"></div>
+                  {!isPaid && (
+                    <PayPalButton
+                      setShow={setShow}
+                      setMessage={setMessage}
+                      totalPrice={totalPrice}
+                      setOrder={setOrder}
+                    />
+                  )}
                 </li>
-                {/* <li> */}
               </ul>
             </div>
           </div>
         </div>
       )}
+      <MessageModal show={showMessage} message={message} setShow={setShow} />
     </>
   );
 };
-
-//     const addPaypalSdk = async (totalPrice) => {
-//   const clientId = await getPaypalClientId();
-//   showLoading();
-//   if (!window.paypal) {
-//     const script = document.createElement('script');
-//     script.type = 'text/javascript';
-//     script.src = 'https://www.paypalobjects.com/api/checkout.js';
-//     script.async = true;
-//     script.onload = () => handlePayment(clientId, totalPrice);
-//     document.body.appendChild(script);
-//   } else {
-//     handlePayment(clientId, totalPrice);
-//   }
-// };
-// const handlePayment = (clientId, totalPrice) => {
-//   window.paypal.Button.render(
-//     {
-//       env: 'sandbox',
-//       client: {
-//         sandbox: clientId,
-//         production: '',
-//       },
-//       locale: 'en_US',
-//       style: {
-//         size: 'responsive',
-//         color: 'gold',
-//         shape: 'pill',
-//       },
-
-//       commit: true,
-//       payment(data, actions) {
-//         return actions.payment.create({
-//           transactions: [
-//             {
-//               amount: {
-//                 total: totalPrice,
-//                 currency: 'USD',
-//               },
-//             },
-//           ],
-//         });
-//       },
-//       onAuthorize(data, actions) {
-//         return actions.payment.execute().then(async () => {
-//           showLoading();
-//           await payOrder(parseRequestUrl().id, {
-//             orderID: data.orderID,
-//             payerID: data.payerID,
-//             paymentID: data.paymentID,
-//           });
-//           hideLoading();
-//           showMessage('Payment was successfull.', () => {
-//             rerender(OrderScreen);
-//           });
-//         });
-//       },
-//     },
-//     '#paypal-button'
-//   ).then(() => {
-//     hideLoading();
-//   });
-// };
-// if (!isPaid) {
-//   addPaypalSdk(totalPrice);
-// }

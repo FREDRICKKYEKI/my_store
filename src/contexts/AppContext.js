@@ -5,19 +5,27 @@ import { getCartItems } from "../frontend/localStorage";
 const Context = createContext();
 
 export const useAppContext = () => {
-	return useContext(Context);
-}
+  return useContext(Context);
+};
 
-export const AppContext = ({children}) => {
+export const AppContext = ({ children }) => {
+  const [loading, setLoading] = useState(false);
+  const [cartItems, setCartItems] = useState();
 
-const [loading, setLoading] = useState(false);
-const showLoading = () => setLoading(true);
-const hideLoading = () => setLoading(false);
-const [cartItems, setCartItems] = useState();
+  /**
+   * Shows screen loader
+   * @returns sets the loading setter to true
+   */
+  const showLoading = () => setLoading(true);
+  /**
+   * Hides screen loader
+   * @returns sets the loading setter to false
+   */
+  const hideLoading = () => setLoading(false);
 
-useEffect(() => {
-	setCartItems(getCartItems());
-}, [])
+  useEffect(() => {
+    setCartItems(getCartItems());
+  }, []);
   return (
     <Context.Provider
       value={{ showLoading, hideLoading, loading, cartItems, setCartItems }}
@@ -25,4 +33,4 @@ useEffect(() => {
       <AuthContext>{children}</AuthContext>
     </Context.Provider>
   );
-}
+};

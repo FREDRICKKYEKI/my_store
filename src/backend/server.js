@@ -22,11 +22,14 @@ mongoose
     console.log(err.reason);
   });
 
+app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
 app.use(bodyParser.json());
 app.use("/api/users", userRouter);
 app.use("/api/orders", orderRouter);
-app.use(express.static(path.join(__dirname, "public")));
+app.use("/api/paypal/clientId", (req, res) => {
+  res.send({ clientId: config.PAYPAL_CLIENT_ID });
+});
 app.use((err, req, res, next) => {
   const status = err.name && err.name === "ValidationError" ? 400 : 500;
   res.status(status).send({ message: err.message });

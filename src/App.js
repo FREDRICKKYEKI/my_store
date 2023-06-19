@@ -29,10 +29,10 @@ function App() {
         <Route path="/register" element={<RegisterScreen />} />
         <Route path="/profile" element={<ProfileScreen />} />
         <Route path="/shipping" element={<ShippingScreen />} />
-        <Route path="*" element={<Error404Screen />} />
         <Route path="/payment" element={<PaymentScreen />} />
         <Route path="/placeorder" element={<PlaceOrderScreen />} />
         <Route path="/order/:id" element={<OrderScreen />} />
+        <Route path="*" element={<Error404Screen />} />
       </Routes>
     </AppContext>
   );
