@@ -11,6 +11,7 @@ export const NavBar = () => {
   const styles = ({ isActive }) => {
     return {
       textDecoration: isActive ? "underline" : "none",
+      color: isActive ? "#f08000" : "white",
     };
   };
   useEffect(() => {}, []);

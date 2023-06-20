@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { update } from "../../../api";
-import { getUserInfo, setUserInfo, clearUser } from "../../localStorage";
+import { setUserInfo, clearUser } from "../../localStorage";
 import { useNavigate } from "react-router-dom";
 import { MessageModal } from "../modals/MessageModal";
 import { useAppContext } from "../../../contexts/AppContext";
 import { useAuth } from "../../../contexts/AuthContext";
+import { Orders } from "../Orders";
 
 export const ProfileScreen = () => {
   const { user, setUser } = useAuth();
@@ -20,7 +21,7 @@ export const ProfileScreen = () => {
 
   const removeUser = () => {
     clearUser();
-	setUser({});
+    setUser({});
     navigate("/");
   };
 
@@ -35,60 +36,73 @@ export const ProfileScreen = () => {
     hideLoading();
     if (data.error) {
       setMessage(data.error);
-	  console.log(data.error)
+      console.log(data.error);
     } else {
       setUserInfo(data);
-	  setUser(data);
+      setUser(data);
       navigate("/");
     }
   };
   useEffect(() => {
-	  if (!user) {
-		navigate("/");
-	  }
-  }, [])
+    if (!user) return;
+    if (!user.name) {
+      navigate("/");
+    }
+  }, []);
   return (
-    <>{user&&
-      <div className="form-container">
-        <form onSubmit={(e) => handleSubmit(e)} ref={profileFormRef}>
-          <ul className="form-items">
-            <li>
-              <h1>User Profile</h1>
-            </li>
-            <li>
-              <label htmlFor="name">Name</label>
-              <input type="name" name="name" ref={nameRef} defaultValue={user.name} />
-            </li>
-            <li>
-              <label htmlFor="email">Email</label>
-              <input
-                type="email"
-                name="email"
-                ref={emailRef}
-                defaultValue={user.email}
-              />
-            </li>
-            <li>
-              <label htmlFor="password">Password</label>
-              <input type="password" name="password" ref={passwordRef} />
-            </li>
-            <li>
-              <button type="submit" className="primary">
-                Update
-              </button>
-            </li>
-            <li>
-              <button
-                type="button"
-                onClick={() => removeUser()}
-                ref={signoutButtonRef}
-              >
-                Sign Out
-              </button>
-            </li>
-          </ul>
-        </form>
-      </div>}
+    <>
+      {user && (
+        <div className="content profile">
+          <div class="profile-info">
+            <div className="form-container">
+              <form onSubmit={(e) => handleSubmit(e)} ref={profileFormRef}>
+                <ul className="form-items">
+                  <li>
+                    <h1>User Profile</h1>
+                  </li>
+                  <li>
+                    <label htmlFor="name">Name</label>
+                    <input
+                      type="name"
+                      name="name"
+                      ref={nameRef}
+                      defaultValue={user.name}
+                    />
+                  </li>
+                  <li>
+                    <label htmlFor="email">Email</label>
+                    <input
+                      type="email"
+                      name="email"
+                      ref={emailRef}
+                      defaultValue={user.email}
+                    />
+                  </li>
+                  <li>
+                    <label htmlFor="password">Password</label>
+                    <input type="password" name="password" ref={passwordRef} />
+                  </li>
+                  <li>
+                    <button type="submit" className="primary">
+                      Update
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                      onClick={() => removeUser()}
+                      ref={signoutButtonRef}
+                    >
+                      Sign Out
+                    </button>
+                  </li>
+                </ul>
+              </form>
+            </div>
+          </div>
+          <Orders />
+        </div>
+      )}
       <MessageModal show={showModal} setShow={setShowModal} message={message} />
     </>
   );

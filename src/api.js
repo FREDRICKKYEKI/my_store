@@ -6,7 +6,7 @@ import { getUserInfo } from "./frontend/localStorage";
  * Fetches individual product through the id
  *
  * @param {string} id the product id
- * @returns product requested
+ * @returns {Promise<object>} product requested
  */
 export const getProduct = async (id) => {
   try {
@@ -31,7 +31,7 @@ export const getProduct = async (id) => {
  * Signs in user
  *
  * @param {object} userDetailsObj user details
- * @returns user data/auth token
+ * @returns {Promise<object>} user data/auth token
  */
 export const signin = async ({ email, password }) => {
   try {
@@ -60,7 +60,7 @@ export const signin = async ({ email, password }) => {
  * Registers new user
  *
  * @param {object} userDetails user details
- * @returns user data/auth token
+ * @returns {Promise<object>} user data/auth token
  */
 export const register = async ({ name, email, password }) => {
   try {
@@ -90,7 +90,7 @@ export const register = async ({ name, email, password }) => {
  * Updates user details
  *
  * @param {*} userData
- * @returns user data/auth token
+ * @returns {Promise<object>} user data/auth token
  */
 export const update = async ({ name, email, password }) => {
   try {
@@ -122,7 +122,7 @@ export const update = async ({ name, email, password }) => {
  * creates new order in database
  *
  * @param {object} order order details
- * @returns response
+ * @returns {Promise<object>} response object
  */
 export const createOrder = async (order) => {
   try {
@@ -150,7 +150,7 @@ export const createOrder = async (order) => {
  * Function to fetch order from database
  *
  * @param {string} id the id of order
- * @returns {object} response object
+ * @returns {Promise<object>} response object
  */
 export const getOrder = async (id) => {
   try {
@@ -173,6 +173,7 @@ export const getOrder = async (id) => {
 
 /**
  * fetches paypal clientId
+ * @returns {Promise<object>} response object
  */
 export const getPaypalClientId = async () => {
   const response = await axios({
@@ -193,7 +194,7 @@ export const getPaypalClientId = async () => {
  *
  * @param {string} orderId id of order
  * @param {string} paymentResult payment information
- * @returns
+ * @returns {Promise<object>} response object
  */
 export const payOrder = async (orderId, paymentResult) => {
   try {
@@ -208,6 +209,30 @@ export const payOrder = async (orderId, paymentResult) => {
       data: paymentResult,
     });
     if (response.statusText !== "OK") {
+      throw new Error(response.data.message);
+    }
+    return response.data;
+  } catch (err) {
+    return { error: err.response ? err.response.data.message : err.message };
+  }
+};
+
+/**
+ * fetches user's orders
+ *
+ * @returns {Promise<object>} response object
+ */
+export const getMyOrders = async () => {
+  try {
+    const { token } = getUserInfo();
+    const response = await axios({
+      url: `${apiUrl}/api/orders/mine`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (response.statusText != "OK") {
       throw new Error(response.data.message);
     }
     return response.data;
