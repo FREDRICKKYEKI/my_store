@@ -12,10 +12,10 @@ export const NavBar = () => {
     return {
       textDecoration: isActive ? "underline" : "none",
       color: isActive ? "#f08000" : "white",
+      fontWeight: isActive ? "bold" : "",
     };
   };
-  useEffect(() => {}, []);
-
+  // console.log("isAdmin", isAdmin);
   return (
     <header>
       <div className="brand">
@@ -33,10 +33,18 @@ export const NavBar = () => {
         )}
         <span className="cart-icon">
           <NavLink style={styles} to="/cart">
-            <i className="fa fa-shopping-cart "></i>
-            Cart
+            <i className="fa fa-shopping-cart "></i> Cart
           </NavLink>
           {numItems > 0 && <span className="cart-bubble">{numItems}</span>}
+        </span>
+        <span>
+          {user && user.isAdmin ? (
+            <NavLink style={styles} to="/dashboard">
+              <i className="fa fa-dashboard"></i> Dashboard
+            </NavLink>
+          ) : (
+            ""
+          )}
         </span>
       </div>
     </header>

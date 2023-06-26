@@ -1,18 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { getMyOrders } from "../../api";
+import { Link } from "react-router-dom";
+import { useAppContext } from "../../contexts/AppContext";
 
 export const Orders = () => {
   const [orders, setOrders] = useState([]);
-
+  const { showLoading, hideLoading } = useAppContext();
   useEffect(() => {
     const fetchOrders = async () => {
       return await getMyOrders();
     };
+    showLoading();
     fetchOrders()
       .then((res) => {
         setOrders(res);
+        hideLoading();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        hideLoading();
+        console.log(err);
+      });
+    return () => fetchOrders();
   }, []);
   console.log(orders, orders[0]);
   return (
@@ -47,7 +55,7 @@ export const Orders = () => {
                     <td>{order.paidAt || "No"}</td>
                     <td>{order.deliveryAt || "No"}</td>
                     <td style={{ textDecoration: "underline" }}>
-                      <a href={`/order/${order._id}`}>DETAILS</a>
+                      <Link to={`/order/${order._id}`}>DETAILS</Link>
                     </td>
                   </tr>
                 ))
