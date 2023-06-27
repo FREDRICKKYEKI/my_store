@@ -19,13 +19,17 @@ export const ProfileScreen = () => {
   const passwordRef = useRef();
   const signoutButtonRef = useRef();
 
-  const removeUser = () => {
+  const handleSignOut = () => {
+    setShowModal(true);
+    setMessage("You have Logged out successfully!");
+  };
+  const callBacks = () => {
     clearUser();
     setUser({});
-    navigate("/");
+    navigate("/signin");
   };
 
-  const handleSubmit = async (e) => {
+  const handleUserUpdate = async (e) => {
     e.preventDefault();
     showLoading();
     const data = await update({
@@ -45,7 +49,7 @@ export const ProfileScreen = () => {
   };
   useEffect(() => {
     if (!user) return;
-    if (!user.name) {
+    if (user && !user.name) {
       navigate("/");
     }
   }, []);
@@ -55,7 +59,7 @@ export const ProfileScreen = () => {
         <div className="content profile">
           <div class="profile-info">
             <div className="form-container">
-              <form onSubmit={(e) => handleSubmit(e)} ref={profileFormRef}>
+              <form onSubmit={(e) => handleUserUpdate(e)} ref={profileFormRef}>
                 <ul className="form-items">
                   <li>
                     <h1>User Profile</h1>
@@ -90,7 +94,7 @@ export const ProfileScreen = () => {
                   <li>
                     <button
                       type="button"
-                      onClick={() => removeUser()}
+                      onClick={() => handleSignOut()}
                       ref={signoutButtonRef}
                     >
                       Sign Out
@@ -103,7 +107,12 @@ export const ProfileScreen = () => {
           <Orders />
         </div>
       )}
-      <MessageModal show={showModal} setShow={setShowModal} message={message} />
+      <MessageModal
+        show={showModal}
+        setShow={setShowModal}
+        message={message}
+        callback={callBacks}
+      />
     </>
   );
 };

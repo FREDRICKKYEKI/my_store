@@ -15,11 +15,10 @@ export const NavBar = () => {
       fontWeight: isActive ? "bold" : "",
     };
   };
-  // console.log("isAdmin", isAdmin);
   return (
     <header>
       <div className="brand">
-        <NavLink to="/">amazona</NavLink>
+        <a href="/">amazona</a>
       </div>
       <div style={{ display: "flex", gap: "1.5rem" }}>
         {user && user.name ? (

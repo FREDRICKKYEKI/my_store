@@ -11,7 +11,6 @@ export const useAppContext = () => {
 export const AppContext = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [cartItems, setCartItems] = useState();
-
   /**
    * Shows screen loader
    * @returns sets the loading setter to true

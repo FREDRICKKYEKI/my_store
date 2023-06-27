@@ -1,6 +1,15 @@
 import React from "react";
 
-export const MessageModal = ({ show, setShow, message }) => {
+/**
+ * Modal component
+ * @param {object} props Component props
+ * @returns Modal JSX
+ */
+export const MessageModal = ({ show, setShow, message, callback = null }) => {
+  const callBack = () => {
+    callback && callback();
+    setShow(false);
+  };
   return (
     <div>
       <>
@@ -10,7 +19,9 @@ export const MessageModal = ({ show, setShow, message }) => {
               {message ? message : "Loading..."}
             </div>
             <button
-              onClick={() => setShow(false)}
+              onClick={() => {
+                callBack();
+              }}
               id="message-overlay-close-button"
             >
               OK

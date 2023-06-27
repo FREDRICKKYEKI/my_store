@@ -1,41 +1,48 @@
-import { signin } from '../../../api';
-import { getUserInfo, setUserInfo } from '../../localStorage';
-import { Link, useNavigate } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
-import { useAppContext } from '../../../contexts/AppContext';
-import { MessageModal } from '../modals/MessageModal';
-import { useAuth } from '../../../contexts/AuthContext';
+import { signin } from "../../../api";
+import { getUserInfo, setUserInfo } from "../../localStorage";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useAppContext } from "../../../contexts/AppContext";
+import { MessageModal } from "../modals/MessageModal";
+import { useAuth } from "../../../contexts/AuthContext";
 
 export const SigninScreen = () => {
-	const navigate = useNavigate()
-	const [showModal, setShowModal] = useState(false);
-	const [message, setMessage] = useState("");
-	const { showLoading, hideLoading } = useAppContext();
-	const { setUser }= useAuth();
-	const emailRef = useRef();
-	const passwordRef = useRef();
+  const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+  const [message, setMessage] = useState("");
+  const { showLoading, hideLoading } = useAppContext();
+  const { setUser } = useAuth();
+  const emailRef = useRef();
+  const passwordRef = useRef();
 
-	const handleSignIn = async (e) => {
-	  e.preventDefault();
-	  showLoading();
-	  const data = await signin({
-		email: emailRef.current.value,
-		password: passwordRef.current.value,
-	  });
-	  hideLoading();
-	  if (data.error) {
-		setMessage(data.error);
-		setShowModal(true);
-	  } else {
-		setUserInfo(data);
-		setUser(data);
-		navigate('/');
-	  }
-	};
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+    showLoading();
+    const data = await signin({
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
+    });
+    hideLoading();
+    if (data.error) {
+      setMessage(data.error);
+      setShowModal(true);
+    } else {
+      setMessage("Signed in Successfully !");
+      setShowModal(true);
 
-	useEffect(() => {
-	  if (getUserInfo().name) { navigate('/'); }
-	},[])
+      setUserInfo(data);
+      setUser(data);
+    }
+  };
+
+  const callBacks = () => {
+    navigate("/");
+  };
+  useEffect(() => {
+    if (getUserInfo().name) {
+      navigate("/profile");
+    }
+  }, []);
 
   return (
     <>
@@ -61,14 +68,23 @@ export const SigninScreen = () => {
             <li>
               <div>
                 New User?
-                <Link to="/register">Create your account</Link>
+                <Link
+                  style={{ color: "#203040", fontWeight: "bold" }}
+                  to="/register"
+                >
+                  &nbsp;Create your account
+                </Link>
               </div>
             </li>
           </ul>
         </form>
       </div>
-      <MessageModal show={showModal} setShow={setShowModal} message={message} />
+      <MessageModal
+        show={showModal}
+        setShow={setShowModal}
+        message={message}
+        callback={getUserInfo().name && callBacks}
+      />
     </>
   );
 };
-
