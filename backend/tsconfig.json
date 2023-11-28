@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "rootDir": "./",
+    "strict": true,
+    "esModuleInterop": true
+  },
+  "include": [
+    "./**/*.ts",
+    "data.ts",
+    "config.ts",
+    "server.ts",
+    "utils.ts",
+    "models/orderModel.ts",
+    "models/userModel.ts",
+    "routers/orderRouter.ts",
+    "routers/userRouter.ts"
+  ], // Specify the path to your TypeScript source files
+  "exclude": ["node_modules"]
+}
