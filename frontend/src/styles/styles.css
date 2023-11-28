@@ -172,6 +172,7 @@ footer {
   flex-wrap: wrap;
   list-style-type: none;
   gap: 1.5rem;
+  padding: 1rem;
   justify-content: start;
 }
 
