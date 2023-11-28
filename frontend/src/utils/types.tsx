@@ -24,6 +24,7 @@ export type product = {
   rating: number;
   numReviews: number;
   description: string;
+  reviews: any;
 };
 
 export type userInfo = {

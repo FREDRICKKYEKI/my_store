@@ -7,6 +7,7 @@ export const apiEndpoints = {
   uploads: 'api/uploads',
   summary: 'api/orders/summary',
   paypalId: '/api/paypal/clientId',
+  productReview: (id: string | undefined) => `api/products/${id}/reviews`,
   productQuery: (query: string | undefined) =>
     `api/products?searchKeyword=${query}&`,
   payment: (id: string | undefined) => `api/orders/${id}/pay`,
