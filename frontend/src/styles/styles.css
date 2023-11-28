@@ -20,7 +20,12 @@ body {
   font-family: 'lato', sans-serif;
   margin: 0;
 }
-
+select,
+textarea {
+  font: 1.6rem helvetica;
+  padding: 1rem;
+  border: 0.1rem #808080 solid;
+}
 a {
   color: #000000;
   text-decoration: none;
@@ -672,4 +677,15 @@ ul.categories {
   border: none;
   color: #ffffff;
   cursor: pointer;
+}
+
+/* review */
+
+.review {
+  list-style-type: none;
+  padding: 0;
+}
+.review li {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
 }

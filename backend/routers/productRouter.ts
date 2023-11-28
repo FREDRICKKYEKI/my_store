@@ -2,6 +2,7 @@ import express from 'express';
 import expressAysncHandler from 'express-async-handler';
 import { isAuth, isAdmin } from '../utils';
 import Product from '../models/productModel';
+import expressAsyncHandler from 'express-async-handler';
 
 const productRouter = express.Router();
 productRouter.get(
@@ -91,3 +92,31 @@ productRouter.delete(
 );
 
 export default productRouter;
+
+productRouter.post(
+  '/:id/reviews',
+  isAuth,
+  expressAsyncHandler(async (req, res) => {
+    const product = await Product.findById(req.params.id);
+    if (product) {
+      const review = {
+        rating: req.body.rating,
+        comment: req.body.comment,
+        user: (req as any).user._id,
+        name: (req as any).user.name,
+      };
+      product.reviews.push(review);
+      product.rating =
+        product.reviews.reduce((a, c) => c.rating + a, 0) /
+        product.reviews.length;
+      product.numReviews = product.reviews.length;
+      const updatedProduct = await product.save();
+      res.status(201).send({
+        message: 'Comment Created.',
+        data: updatedProduct.reviews[updatedProduct.reviews.length - 1],
+      });
+    } else {
+      throw Error('Product does not exist.');
+    }
+  })
+);
