@@ -1,6 +1,6 @@
-export type httpMethods = "GET" | "POST" | "PUT" | "DELETE";
+export type httpMethods = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
-export type httpMutateMethods = "POST" | "PUT" | "DELETE";
+export type httpMutateMethods = 'POST' | 'PUT' | 'DELETE';
 
 export interface cartItem {
   _id?: string | undefined;
@@ -53,6 +53,10 @@ export interface AppContextType {
   loading: boolean;
   cartItems: cartItem[] | undefined;
   setCartItems: React.Dispatch<React.SetStateAction<cartItem[] | undefined>>;
+  params: any;
+  setParams: any;
+  products: product[] | undefined;
+  setProducts: React.Dispatch<React.SetStateAction<product[] | undefined>>;
 }
 
 export type OrderItem = {

@@ -1,6 +1,7 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { getCartItems } from "../utils/localStorage";
-import { AppContextType, cartItem } from "../utils/types";
+import { createContext, useContext, useEffect, useState } from 'react';
+import { getCartItems } from '../utils/localStorage';
+import { AppContextType, cartItem, product } from '../utils/types';
+import { useSearchParams } from 'react-router-dom';
 
 const Context = createContext<AppContextType>({
   showLoading: () => {},
@@ -8,6 +9,10 @@ const Context = createContext<AppContextType>({
   loading: false,
   cartItems: [],
   setCartItems: () => {},
+  params: undefined,
+  setParams: () => {},
+  products: [],
+  setProducts: () => {},
 });
 
 export const useAppContext = () => {
@@ -17,6 +22,8 @@ export const useAppContext = () => {
 export const AppContext = ({ children }: any) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [cartItems, setCartItems] = useState<cartItem[]>();
+  const [params, setParams] = useSearchParams();
+  const [products, setProducts] = useState<product[]>();
   /**
    * Shows screen loader
    * @returns sets the loading setter to true
@@ -33,7 +40,17 @@ export const AppContext = ({ children }: any) => {
   }, []);
   return (
     <Context.Provider
-      value={{ showLoading, hideLoading, loading, cartItems, setCartItems }}
+      value={{
+        showLoading,
+        hideLoading,
+        loading,
+        cartItems,
+        setCartItems,
+        params,
+        setParams,
+        products,
+        setProducts,
+      }}
     >
       {children}
     </Context.Provider>

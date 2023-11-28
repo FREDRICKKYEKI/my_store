@@ -1,3 +1,4 @@
+import { Aside } from './components/Aside';
 import { NavBar } from './components/NavBar';
 import { AppContext } from './contexts/AppContext';
 import { CartScreen } from './screens/CartScreen';
@@ -24,6 +25,9 @@ function App() {
     <AppContext>
       <div className='grid-container'>
         <NavBar />
+        <aside id='aside-container'>
+          <Aside />
+        </aside>
         <LoadingScreen />
         <main id='main-container'>
           <Routes>

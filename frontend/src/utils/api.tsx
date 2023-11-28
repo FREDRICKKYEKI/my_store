@@ -14,7 +14,6 @@ const apiUrl = envs.BACKEND_URL;
 export const getStoreData = (apiEndpoint: string) => {
   return new Promise((resolve, reject) => {
     const { token } = getUserInfo();
-
     axios({
       url: `${apiUrl}/${apiEndpoint}`,
       method: 'GET',

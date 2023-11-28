@@ -7,7 +7,6 @@ import { Order } from '../utils/types';
 import { useAppContext } from '../contexts/AppContext';
 import { MessageModal } from '../components/modals/MessageModal';
 import { PayPalButton } from '../components/buttons/PayPalButton';
-import { envs } from '../utils/loadEnv';
 import { useAuth } from '../contexts/AuthContext';
 
 export const OrderScreen = () => {
@@ -92,10 +91,7 @@ export const OrderScreen = () => {
                   order?.orderItems?.map((item) => (
                     <li key={item._id}>
                       <div className='cart-image'>
-                        <img
-                          src={`${envs.BACKEND_URL}${item.image}`}
-                          alt={`${item.name}`}
-                        />
+                        <img src={`${item.image}`} alt={`${item.name}`} />
                       </div>
                       <div className='cart-name'>
                         <div>
