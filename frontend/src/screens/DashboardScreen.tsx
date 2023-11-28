@@ -4,9 +4,8 @@ import { ProductListScreen } from './ProductListScreen';
 import { OrderListScreen } from './OrderListScreen';
 import { useEffect, useState } from 'react';
 import { getStoreData } from '../utils/api';
-import { apiEndpoints } from '../utils/constants';
+import { apiEndpoints, initSummary } from '../utils/constants';
 import { LineChart, PieChart } from 'chartist';
-// import {Chartist} from 'chartist';
 
 export const DashboardScreen = () => {
   const location = useLocation();
@@ -28,7 +27,8 @@ export const DashboardScreen = () => {
 };
 
 const DashboardHome = () => {
-  const [summary, setSummary] = useState<any>({});
+  const [summary, setSummary] = useState<any>(initSummary);
+
   useEffect(() => {
     getStoreData(apiEndpoints.summary)
       .then((res) => {
@@ -37,7 +37,6 @@ const DashboardHome = () => {
       .catch((err) => {
         console.log(err);
       });
-
     new LineChart(
       '.ct-chart-line',
       {

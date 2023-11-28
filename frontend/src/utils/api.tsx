@@ -1,5 +1,4 @@
 import axios from 'axios';
-// import { apiUrl } from './config';
 import { httpMutateMethods } from './types';
 import { getUserInfo } from './localStorage';
 import { apiEndpoints } from './constants';
@@ -7,6 +6,11 @@ import { envs } from './loadEnv';
 
 const apiUrl = envs.BACKEND_URL;
 
+/**
+ * Retrieves data from the API endpoint.
+ * @param apiEndpoint - The API endpoint to retrieve data from.
+ * @returns A promise that resolves with the retrieved data or rejects with an error.
+ */
 export const getStoreData = (apiEndpoint: string) => {
   return new Promise((resolve, reject) => {
     const { token } = getUserInfo();
@@ -28,6 +32,13 @@ export const getStoreData = (apiEndpoint: string) => {
   });
 };
 
+/**
+ * Sends a request to mutate store data.
+ * @param apiEndpoint - The API endpoint to send the request to.
+ * @param data - The data to be sent in the request.
+ * @param method - The HTTP method to be used for the request.
+ * @returns A promise that resolves with the response data if the request is successful, or rejects with an error if the request fails.
+ */
 export const mutateStoreData = (
   apiEndpoint: string,
   data: {},
@@ -54,6 +65,11 @@ export const mutateStoreData = (
   });
 };
 
+/**
+ * Uploads a product image to the server.
+ * @param formData - The form data containing the image file.
+ * @returns A promise that resolves with the response data if the upload is successful, or rejects with an error if it fails.
+ */
 export const uploadProductImage = (formData: FormData) => {
   return new Promise((resolve, reject) => {
     const { token } = getUserInfo();
@@ -106,24 +122,6 @@ export const createOrder = async (order: any) => {
         : (err as any).message,
     };
   }
-};
-
-/**
- * fetches paypal clientId
- * @returns {Promise<object>} response object
- */
-export const getPaypalClientId = async () => {
-  const response = await axios({
-    url: `${apiUrl}/api/paypal/clientId`,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-
-  if (response.statusText !== 'OK') {
-    throw new Error(response.data.message);
-  }
-  return response.data.clientId;
 };
 
 /**

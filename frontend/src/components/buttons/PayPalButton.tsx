@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useAppContext } from "../../contexts/AppContext";
-import { getPaypalClientId, getStoreData, payOrder } from "../../utils/api";
-import { apiEndpoints } from "../../utils/constants";
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useAppContext } from '../../contexts/AppContext';
+import { getStoreData, mutateStoreData } from '../../utils/api';
+import { apiEndpoints } from '../../utils/constants';
 
 export const PayPalButton = ({
   totalPrice,
@@ -17,7 +17,7 @@ export const PayPalButton = ({
 }) => {
   const { showLoading, hideLoading } = useAppContext();
   const { id } = useParams();
-  const [clientId, setClientId] = useState("");
+  const [clientId, setClientId] = useState('');
 
   /**
    * Function that handles payment
@@ -27,19 +27,19 @@ export const PayPalButton = ({
    */
   const handlePayment = (clientId: string, totalPrice: number) => {
     if (!clientId) return;
-    if (document.querySelectorAll(".paypal-button").length >= 1) return;
+    if (document.querySelectorAll('.paypal-button').length >= 1) return;
     (window as any).paypal.Button.render(
       {
-        env: "sandbox",
+        env: 'sandbox',
         client: {
           sandbox: clientId,
-          production: "",
+          production: '',
         },
-        locale: "en_KE",
+        locale: 'en_KE',
         style: {
-          size: "responsive",
-          color: "gold",
-          shape: "pill",
+          size: 'responsive',
+          color: 'gold',
+          shape: 'pill',
         },
         commit: true,
         payment(actions: any) {
@@ -48,7 +48,7 @@ export const PayPalButton = ({
               {
                 amount: {
                   total: totalPrice,
-                  currency: "USD",
+                  currency: 'USD',
                 },
               },
             ],
@@ -57,19 +57,31 @@ export const PayPalButton = ({
         onAuthorize(data: any, actions: any) {
           return actions.payment.execute().then(async () => {
             showLoading();
-            await payOrder(id, {
-              orderID: data.orderID,
-              payerID: data.payerID,
-              paymentID: data.paymentID,
-            });
-            hideLoading();
-            setMessage("Payment was successful.");
-            resetOrder();
-            setShow(true);
+            mutateStoreData(
+              apiEndpoints.payment(id),
+              {
+                orderID: data.orderID,
+                payerID: data.payerID,
+                paymentID: data.paymentID,
+              },
+              'PUT'
+            )
+              .then(() => {
+                hideLoading();
+                setMessage('Payment was successful.');
+                setShow(true);
+                resetOrder();
+              })
+              .catch((err) => {
+                setMessage('⚠ Payment was not successful.');
+                setShow(true);
+                console.log(err);
+                hideLoading();
+              });
           });
         },
       },
-      "#paypal-button"
+      '#paypal-button'
     ).then(() => {});
   };
 
@@ -78,7 +90,6 @@ export const PayPalButton = ({
    */
   const resetOrder = () => {
     showLoading();
-
     getStoreData(apiEndpoints.order(id))
       .then((res) => {
         setOrder(res);
@@ -91,11 +102,8 @@ export const PayPalButton = ({
   };
 
   useEffect(() => {
-    const fetchClientId = async () => {
-      return await getPaypalClientId();
-    };
-    fetchClientId()
-      .then((res) => setClientId(res))
+    getStoreData(apiEndpoints.paypalId)
+      .then((res) => setClientId(res as string))
       .catch((err) => console.log(err));
   }, []);
 
@@ -103,5 +111,5 @@ export const PayPalButton = ({
     handlePayment(clientId, totalPrice);
   }, [clientId]);
 
-  return <>{clientId && <div className="fw" id="paypal-button"></div>}</>;
+  return <>{clientId && <div className='fw' id='paypal-button'></div>}</>;
 };

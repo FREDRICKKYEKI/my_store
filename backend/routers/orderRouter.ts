@@ -18,6 +18,58 @@ orderRouter.get(
 );
 
 orderRouter.get(
+  '/summary',
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    try {
+      const orders = await Order.aggregate([
+        {
+          $group: {
+            _id: null,
+            numOrders: { $sum: 1 },
+            totalSales: { $sum: '$totalPrice' },
+          },
+        },
+      ]);
+
+      const users = await User.aggregate([
+        {
+          $group: {
+            _id: null,
+            numUsers: { $sum: 1 },
+          },
+        },
+      ]);
+
+      const dailyOrders = await Order.aggregate([
+        {
+          $group: {
+            _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
+            orders: { $sum: 1 },
+            sales: { $sum: '$totalPrice' },
+          },
+        },
+      ]);
+
+      const productCategories = await Product.aggregate([
+        {
+          $group: {
+            _id: '$category',
+            count: { $sum: 1 },
+          },
+        },
+      ]);
+
+      res.send({ users, orders, dailyOrders, productCategories });
+    } catch (error) {
+      console.error('error!');
+      res.status(500).send({ message: 'Internal Server Error' });
+    }
+  })
+);
+
+orderRouter.get(
   '/mine',
   isAuth,
   expressAsyncHandler(async (req: any, res: any) => {
@@ -108,57 +160,6 @@ orderRouter.put(
       res.send({ message: 'Order Delivered', order: updatedOrder });
     } else {
       res.status(404).send({ message: 'Order Not Found.' });
-    }
-  })
-);
-orderRouter.get(
-  '/summary',
-  isAuth,
-  isAdmin,
-  expressAsyncHandler(async (req, res) => {
-    try {
-      const orders = await Order.aggregate([
-        {
-          $group: {
-            _id: null,
-            numOrders: { $sum: 1 },
-            totalSales: { $sum: '$totalPrice' },
-          },
-        },
-      ]);
-
-      const users = await User.aggregate([
-        {
-          $group: {
-            _id: null,
-            numUsers: { $sum: 1 },
-          },
-        },
-      ]);
-
-      const dailyOrders = await Order.aggregate([
-        {
-          $group: {
-            _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
-            orders: { $sum: 1 },
-            sales: { $sum: '$totalPrice' },
-          },
-        },
-      ]);
-
-      const productCategories = await Product.aggregate([
-        {
-          $group: {
-            _id: '$category',
-            count: { $sum: 1 },
-          },
-        },
-      ]);
-
-      res.send({ users, orders, dailyOrders, productCategories });
-    } catch (error) {
-      console.error(error);
-      res.status(500).send({ message: 'Internal Server Error' });
     }
   })
 );

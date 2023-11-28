@@ -24,6 +24,49 @@ exports.orderRouter.get('/', utils_1.isAuth, utils_1.isAdmin, (0, express_async_
     const orders = yield orderModel_1.Order.find({}).populate('user');
     res.send(orders);
 })));
+exports.orderRouter.get('/summary', utils_1.isAuth, utils_1.isAdmin, (0, express_async_handler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const orders = yield orderModel_1.Order.aggregate([
+            {
+                $group: {
+                    _id: null,
+                    numOrders: { $sum: 1 },
+                    totalSales: { $sum: '$totalPrice' },
+                },
+            },
+        ]);
+        const users = yield userModel_1.User.aggregate([
+            {
+                $group: {
+                    _id: null,
+                    numUsers: { $sum: 1 },
+                },
+            },
+        ]);
+        const dailyOrders = yield orderModel_1.Order.aggregate([
+            {
+                $group: {
+                    _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
+                    orders: { $sum: 1 },
+                    sales: { $sum: '$totalPrice' },
+                },
+            },
+        ]);
+        const productCategories = yield productModel_1.default.aggregate([
+            {
+                $group: {
+                    _id: '$category',
+                    count: { $sum: 1 },
+                },
+            },
+        ]);
+        res.send({ users, orders, dailyOrders, productCategories });
+    }
+    catch (error) {
+        console.error('error!');
+        res.status(500).send({ message: 'Internal Server Error' });
+    }
+})));
 exports.orderRouter.get('/mine', utils_1.isAuth, (0, express_async_handler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const orders = yield orderModel_1.Order.find({ user: req.user._id });
     res.send(orders);
@@ -89,48 +132,5 @@ exports.orderRouter.put('/:id/deliver', utils_1.isAuth, (0, express_async_handle
     }
     else {
         res.status(404).send({ message: 'Order Not Found.' });
-    }
-})));
-exports.orderRouter.get('/summary', utils_1.isAuth, utils_1.isAdmin, (0, express_async_handler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const orders = yield orderModel_1.Order.aggregate([
-            {
-                $group: {
-                    _id: null,
-                    numOrders: { $sum: 1 },
-                    totalSales: { $sum: '$totalPrice' },
-                },
-            },
-        ]);
-        const users = yield userModel_1.User.aggregate([
-            {
-                $group: {
-                    _id: null,
-                    numUsers: { $sum: 1 },
-                },
-            },
-        ]);
-        const dailyOrders = yield orderModel_1.Order.aggregate([
-            {
-                $group: {
-                    _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
-                    orders: { $sum: 1 },
-                    sales: { $sum: '$totalPrice' },
-                },
-            },
-        ]);
-        const productCategories = yield productModel_1.default.aggregate([
-            {
-                $group: {
-                    _id: '$category',
-                    count: { $sum: 1 },
-                },
-            },
-        ]);
-        res.send({ users, orders, dailyOrders, productCategories });
-    }
-    catch (error) {
-        console.error(error);
-        res.status(500).send({ message: 'Internal Server Error' });
     }
 })));
