@@ -1,2 +1,2 @@
 # my_store
-A Commerce website in ReactJS
+An E-Commerce webapp in MongoDB + Express + ReactJS + NodeJS
